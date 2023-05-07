@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Programme extends Model
+class PieceJointe extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'montant',
-        'titre',
+        'id_demande',
+        'url'
     ];
-    public function oeuvres()
+    public function demande()
     {
-        return $this->hasMany(Oeuvre::class);
+        return $this->belongsTo(Demande::class);
     }
+   
 }

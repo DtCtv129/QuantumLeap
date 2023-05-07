@@ -5,16 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Programme extends Model
+class Caisse extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'montant',
-        'titre',
+        'budget'
     ];
-    public function oeuvres()
-    {
-        return $this->hasMany(Oeuvre::class);
-    }
+    
 }

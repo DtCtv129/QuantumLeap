@@ -2,11 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\ProgrammesController;
+use App\Http\Controllers\Api\OeuvresController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,27 +16,23 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    // User Management
+    Route::post('users/create',[UsersController::class,'createUser']);
+    Route::post('users/update/{id}',[UsersController::class,'updateUser']);
+    Route::post('users/delete/{id}',[UsersController::class,'deleteUser']);
+    Route::get('logout',[UsersController::class,'logoutUser']);
+    // Programme Management
+    Route::get('programmes',[ProgrammesController::class,'getProgrammes']);
+    Route::post('programmes/create',[ProgrammesController::class,'createProgramme']);
+    Route::post('programmes/update/{id}',[ProgrammesController::class,'updateProgramme']);
+    Route::post('programmes/delete/{id}',[ProgrammesController::class,'deleteProgramme']);
+    // Oeuvre Management
+    Route::get('oeuvres',[OeuvresController::class,'getOeuvres']);
+    Route::post('oeuvres/create',[OeuvresController::class,'createOeuvre']);
+    Route::post('oeuvres/update/{id}',[OeuvresController::class,'updateOeuvre']);
+    Route::post('oeuvres/delete/{id}',[OeuvresController::class,'deleteOeuvre']);
 });
+// Login Route
+Route::post('login',[UsersController::class,'loginUser']);
 
-
-Route::group(['prefix' => 'api','middleware' => 'auth:sanctum'],function(){
-    Route::post('login',[UserController::class,'loginUser']);
-    Route::get('user',[UserController::class,'userDetails']);
-    Route::get('logout',[UserController::class,'logout']);
-    Route::get('/profile/{id}', [ProfileController::class, 'show']);
-    Route::get('/profile/{id}/edit', [ProfileController::class, 'edit']);
-    Route::put('/profile/{id}', [ProfileController::class, 'update']);
-
-    Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm']);
-    Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm']); 
-    Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm']);
-    Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm']);
-
-});
-
-
-Route::group(['prefix' => 'api', 'middleware' => 'auth:sanctum'], function() {
-    Route::resource('roles', RoleController::class);
-});

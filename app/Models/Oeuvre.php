@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Oeuvre extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'titre'
+        'programme_id',
+        'titre',
+        'description',
+        'nbr_doc'
     ];
-    public function programme(): BelongsTo
+    public function programme()
     {
         return $this->belongsTo(Programme::class);
-    }
-    public function articles(): HasMany
-    {
-        return $this->hasMany(Article::class);
     }
 }
