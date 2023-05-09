@@ -65,4 +65,39 @@ class ProgrammesController extends Controller
         
         return $this->onError(401,"Unauthorized Access");
     }
+
+    public function transferer(Request $request)
+    {
+        // Récupérer les programmes source et destination à partir des paramètres de la requête
+        $source = Programme::where('titre', $request->input('source'))->firstOrFail();
+        $destination = Programme::where('titre', $request->input('destination'))->firstOrFail();
+
+        // Récupérer la valeur à transférer à partir des paramètres de la requête
+        $valeur = intval($request->input('valeur'));
+
+        // Vérifier si la valeur à transférer est supérieure au montant du programme source
+        
+        if ($source->montant < $valeur) {
+            return response()->json(['message' => 'Erreur, the value is greater then the amount of programme'], 400);
+        }
+
+        // Mettre à jour les montants des programmes source et destination
+        $source->montant -= $valeur;
+        $destination->montant += $valeur;
+
+        // Sauvegarder les changements dans la base de données
+        $source->save();
+        $destination->save();
+
+        // Retourner une réponse JSON avec les programmes source et destination mis à jour
+        return response()->json([
+            'source' => $source,
+            'destination' => $destination,
+        ]);
+    }
+
+
+
+
+
 }

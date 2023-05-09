@@ -116,4 +116,26 @@ class UsersController extends Controller
     {
         //
     }
+
+
+    public function changePassword(request $request){
+        $request->validate([
+            'password' => 'required|confirmed', 
+
+        ]);
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return response([
+            'message' => 'Password changed Successfully',
+            'status' => 'Success',
+
+        ], 200);
+
+
+
+
+
+    }
 }
