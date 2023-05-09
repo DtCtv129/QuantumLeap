@@ -2,6 +2,9 @@
 namespace App\Http\Library;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rules\File;
+use App\Models\PieceJointe;
+use Illuminate\Http\Request;
 
 trait ApiHelpers
 {
@@ -9,9 +12,7 @@ trait ApiHelpers
     {
         if (!empty($user)) {
             return $user->tokenCan("admin");
-            
         }
-
         return false;
     }
 
@@ -33,7 +34,17 @@ trait ApiHelpers
     }
 
    
-    
+    protected function demandeValidatedRules(): array
+    {
+        return [
+            // 'oeuvreId' => ['required']
+            'files.*' => [
+                'required',
+                File::types(['pdf'])
+                    ->max(1024)
+                    ]
+            ];
+    }
     protected function userUpdateValidatedRules(): array
     {
         return [
@@ -48,5 +59,23 @@ trait ApiHelpers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ];
+    }
+    public function storeFiles(Request $request,$demandeId)
+    {
+        $files = [];
+        if ($request->file('files')){
+            foreach($request->file('files') as $key => $file)
+            {
+                $fileName = time().rand(1,99).'.'.$file->extension();  
+                $file->storeAs('files', $fileName);
+                $files[]['name'] = $fileName;
+            }
+        }
+        foreach ($files as $file) {
+           PieceJointe::create([
+            'demande_id'=>$demandeId,
+            'name'=>$file['name']
+           ]);
+        }        
     }
 }

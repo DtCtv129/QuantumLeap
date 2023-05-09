@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\OeuvresController;
 use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\TransactionsController;
 
+use App\Http\Controllers\Api\DemandesController;
+use App\Http\Controllers\Api\PieceJointesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,7 +46,15 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('oeuvres/delete/{id}',[OeuvresController::class,'deleteOeuvre']);
 
     //Budget Mangement
-    Route::post('/distribuer',[TransactionsController::class,'distribuerbudget']);
+    // Route::post('/distribuer',[TransactionsController::class,'distribuerbudget']);
+    
+    // Demande Management
+    Route::get('demandes',[DemandesController::class,'getDemandes']);
+    Route::post('demandes/create',[DemandesController::class,'createDemande']);
+    Route::get('demandes/attachments',[PieceJointesController::class,'getAttachments']);
+        // Request File
+        Route::get('file',[PieceJointesController::class,'getFile']);
+    Route::post('demandes/status/{id}',[DemandesController::class,'changeDemandeStatus']);
 
 });
 // Login Route

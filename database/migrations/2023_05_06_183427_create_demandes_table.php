@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('oeuvre_id');
             $table->integer('user_id');
-            $table->string('status');
-            $table->boolean('payed');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

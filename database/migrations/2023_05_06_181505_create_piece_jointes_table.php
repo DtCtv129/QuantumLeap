@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('piece_jointes', function (Blueprint $table) {
             $table->id();
-            $table->integer('demamnde_id');
-            $table->string('url');
+            $table->integer('demande_id');
+            $table->string('name');
             $table->timestamps();
         });
     }
