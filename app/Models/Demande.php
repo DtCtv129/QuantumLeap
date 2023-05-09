@@ -11,6 +11,7 @@ class Demande extends Model
     protected $fillable = [
         'user_id',
         'oeuvre_id',
+        'status',
     ];
     public function piecejointes()
     {

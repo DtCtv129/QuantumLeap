@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->string('source');
             $table->bigInteger('montant');
-            $table->integer('destination');
             $table->timestamps();
         });
     }

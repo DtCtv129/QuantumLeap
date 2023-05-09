@@ -55,7 +55,7 @@ class UsersController extends Controller
             if (! $user || ! Hash::check($request->password, $user->password) ) {
                 return $this->onError(401,"Wrong Email Or Password");
             }
-             if((int)$user->role===0 ){
+             if((int)$user->role=== 0 ){
                     $userToken =  $user->createToken('auth-token', ['admin'])->plainTextToken; 
                 }
                 else{
@@ -76,7 +76,7 @@ class UsersController extends Controller
         return $this->onSuccess('','User Loged out successfully.');
     }
    
-    public function updateUser(Request $request, string $id):JsonResponse
+    public function updateUser(Request $request, int $id):JsonResponse
     {
         $user = $request->user();
         if ($this->isAdmin($user)) {

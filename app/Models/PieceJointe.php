@@ -9,8 +9,8 @@ class PieceJointe extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_demande',
-        'url'
+        'demande_id',
+        'name'
     ];
     public function demande()
     {
