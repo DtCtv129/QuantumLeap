@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\DemandesController;
 use App\Http\Controllers\Api\PieceJointesController;
 use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\TransactionsController;
+use App\Http\Controllers\Api\StatisticsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,9 +26,9 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('users/create',[UsersController::class,'createUser']);
     Route::post('users/update/{id}',[UsersController::class,'updateUser']);
     Route::post('users/delete/{id}',[UsersController::class,'deleteUser']);
-    Route::post('logout',[UsersController::class,'logoutUser']);
     Route::post('users/changepassword',[UsersController::class,'changePassword']);
-   
+    Route::get('users/role',[UsersController::class,'userRole']);
+    Route::post('logout',[UsersController::class,'logoutUser']);
     // Programme Management
     Route::get('programmes',[ProgrammesController::class,'getProgrammes']);
     Route::post('programmes/create',[ProgrammesController::class,'createProgramme']);
@@ -45,6 +46,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
         // Request File
         Route::get('file',[PieceJointesController::class,'getFile']);
     Route::post('demandes/status/{id}',[DemandesController::class,'changeDemandeStatus']);
+    // Statistics
+    Route::get('stats',[StatisticsController::class,'getStats']);
 
 });
 // Login Route

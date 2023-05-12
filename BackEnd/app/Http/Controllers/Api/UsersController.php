@@ -127,4 +127,18 @@ class UsersController extends Controller
 
         ], 200);
     }
+    public function userRole(Request $request):JsonResponse
+    {
+        $user = $request->user();
+        if ($this->isAdmin($user)) {
+                $role="admin";
+                    return $this->onSuccess($role, '');
+                }
+        else if ($this->isUser($user)) {
+                $role="user";
+                return $this->onSuccess($role, '');
+                }
+        else
+                return $this->onError(401,"User Doesn't exist");  
+    }
 }

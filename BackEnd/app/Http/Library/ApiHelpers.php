@@ -15,6 +15,13 @@ trait ApiHelpers
         }
         return false;
     }
+    protected function isUser($user):bool
+    {
+        if (!empty($user)) {
+            return $user->tokenCan("user");
+        }
+        return false;
+    }
 
     protected function onSuccess($data, string $message = '', int $code = 200): JsonResponse
     {
