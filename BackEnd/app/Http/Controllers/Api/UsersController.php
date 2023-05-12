@@ -112,15 +112,9 @@ class UsersController extends Controller
             }
         return $this->onError(401,"Unauthorized Access");
     }
-    public function destroy(string $id)
-    {
-        //
-    }
-
-
     public function changePassword(request $request){
         $request->validate([
-            'password' => 'required|confirmed', 
+            'password' => 'required', 
 
         ]);
 
@@ -132,10 +126,5 @@ class UsersController extends Controller
             'status' => 'Success',
 
         ], 200);
-
-
-
-
-
     }
 }

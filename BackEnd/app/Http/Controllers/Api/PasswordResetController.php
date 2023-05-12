@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\PasswordReset;
-
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Mail\Message;
@@ -43,9 +42,6 @@ class ForgotPasswordController extends Controller
             'token'=>$token,
             'created_at'=>Carbon::now()
         ]);
-
-
-        
         // Sending EMail with Password Reset View
         Mail::send('reset', ['token'=>$token], function(Message $message)use($email){
             $message->subject('Reset Your Password');

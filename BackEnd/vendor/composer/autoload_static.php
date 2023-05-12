@@ -114,6 +114,7 @@ class ComposerStaticInitfdc1a340d21e5ee6343bd967e7f2bd47
         'L' => 
         array (
             'League\\MimeTypeDetection\\' => 25,
+            'League\\Flysystem\\Local\\' => 23,
             'League\\Flysystem\\' => 17,
             'League\\Config\\' => 14,
             'League\\CommonMark\\' => 18,
@@ -375,6 +376,10 @@ class ComposerStaticInitfdc1a340d21e5ee6343bd967e7f2bd47
         array (
             0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
         ),
+        'League\\Flysystem\\Local\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/flysystem-local',
+        ),
         'League\\Flysystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
@@ -507,15 +512,8 @@ class ComposerStaticInitfdc1a340d21e5ee6343bd967e7f2bd47
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
-        'App\\Http\\Controllers\\Api\\BudgetController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/BudgetController.php',
-        'App\\Http\\Controllers\\Api\\CaisseController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/CaisseController.php',
-        'App\\Http\\Controllers\\Api\\OeuvresController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/OeuvresController.php',
-        'App\\Http\\Controllers\\Api\\ProgrammesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ProgrammesController.php',
-        'App\\Http\\Controllers\\Api\\TransactionsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/TransactionsController.php',
-        'App\\Http\\Controllers\\Api\\UsersController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/UsersController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
-        'App\\Http\\Library\\ApiHelpers' => __DIR__ . '/../..' . '/app/Http/Library/ApiHelpers.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
@@ -525,13 +523,6 @@ class ComposerStaticInitfdc1a340d21e5ee6343bd967e7f2bd47
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\ValidateSignature' => __DIR__ . '/../..' . '/app/Http/Middleware/ValidateSignature.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
-        'App\\Models\\Caisse' => __DIR__ . '/../..' . '/app/Models/Caisse.php',
-        'App\\Models\\Demande' => __DIR__ . '/../..' . '/app/Models/Demande.php',
-        'App\\Models\\Oeuvre' => __DIR__ . '/../..' . '/app/Models/Oeuvre.php',
-        'App\\Models\\PasswordReset' => __DIR__ . '/../..' . '/app/Models/PasswordReset.php',
-        'App\\Models\\PieceJointe' => __DIR__ . '/../..' . '/app/Models/PieceJointe.php',
-        'App\\Models\\Programme' => __DIR__ . '/../..' . '/app/Models/Programme.php',
-        'App\\Models\\Transaction' => __DIR__ . '/../..' . '/app/Models/Transaction.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -3071,6 +3062,8 @@ class ComposerStaticInitfdc1a340d21e5ee6343bd967e7f2bd47
         'League\\Flysystem\\FilesystemWriter' => __DIR__ . '/..' . '/league/flysystem/src/FilesystemWriter.php',
         'League\\Flysystem\\InvalidStreamProvided' => __DIR__ . '/..' . '/league/flysystem/src/InvalidStreamProvided.php',
         'League\\Flysystem\\InvalidVisibilityProvided' => __DIR__ . '/..' . '/league/flysystem/src/InvalidVisibilityProvided.php',
+        'League\\Flysystem\\Local\\FallbackMimeTypeDetector' => __DIR__ . '/..' . '/league/flysystem-local/FallbackMimeTypeDetector.php',
+        'League\\Flysystem\\Local\\LocalFilesystemAdapter' => __DIR__ . '/..' . '/league/flysystem-local/LocalFilesystemAdapter.php',
         'League\\Flysystem\\MountManager' => __DIR__ . '/..' . '/league/flysystem/src/MountManager.php',
         'League\\Flysystem\\PathNormalizer' => __DIR__ . '/..' . '/league/flysystem/src/PathNormalizer.php',
         'League\\Flysystem\\PathPrefixer' => __DIR__ . '/..' . '/league/flysystem/src/PathPrefixer.php',

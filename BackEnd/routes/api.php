@@ -5,11 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ProgrammesController;
 use App\Http\Controllers\Api\OeuvresController;
-use App\Http\Controllers\Api\ResetPasswordController;
-use App\Http\Controllers\Api\TransactionsController;
-
 use App\Http\Controllers\Api\DemandesController;
 use App\Http\Controllers\Api\PieceJointesController;
+use App\Http\Controllers\Api\ResetPasswordController;
+use App\Http\Controllers\Api\TransactionsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,28 +25,19 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('users/create',[UsersController::class,'createUser']);
     Route::post('users/update/{id}',[UsersController::class,'updateUser']);
     Route::post('users/delete/{id}',[UsersController::class,'deleteUser']);
-    Route::get('logout',[UsersController::class,'logoutUser']);
-    Route::post('/changepassword',[UsersController::class,'changePassword']);
-    
-
-
-
+    Route::post('logout',[UsersController::class,'logoutUser']);
+    Route::post('users/changepassword',[UsersController::class,'changePassword']);
+   
     // Programme Management
     Route::get('programmes',[ProgrammesController::class,'getProgrammes']);
     Route::post('programmes/create',[ProgrammesController::class,'createProgramme']);
     Route::post('programmes/update/{id}',[ProgrammesController::class,'updateProgramme']);
     Route::post('programmes/delete/{id}',[ProgrammesController::class,'deleteProgramme']);
-    Route::post('/transferer',[ProgrammesController::class,'transferer']);
-
     // Oeuvre Management
     Route::get('oeuvres',[OeuvresController::class,'getOeuvres']);
     Route::post('oeuvres/create',[OeuvresController::class,'createOeuvre']);
     Route::post('oeuvres/update/{id}',[OeuvresController::class,'updateOeuvre']);
     Route::post('oeuvres/delete/{id}',[OeuvresController::class,'deleteOeuvre']);
-
-    //Budget Mangement
-    // Route::post('/distribuer',[TransactionsController::class,'distribuerbudget']);
-    
     // Demande Management
     Route::get('demandes',[DemandesController::class,'getDemandes']);
     Route::post('demandes/create',[DemandesController::class,'createDemande']);
