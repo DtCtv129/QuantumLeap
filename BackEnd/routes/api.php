@@ -43,12 +43,25 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('demandes',[DemandesController::class,'getDemandes']);
     Route::post('demandes/create',[DemandesController::class,'createDemande']);
     Route::get('demandes/attachments',[PieceJointesController::class,'getAttachments']);
+    Route::post('/paydemande/{id}', [DemandesController::class, 'payDemande']);
         // Request File
         Route::get('file',[PieceJointesController::class,'getFile']);
     Route::post('demandes/status/{id}',[DemandesController::class,'changeDemandeStatus']);
     // Statistics
     Route::get('stats',[StatisticsController::class,'getStats']);
-
+    //Dashboard Management 
+    Route::get('/programmes/count', [DashboardController::class, 'countProgrammes']);
+    Route::get('/annonces/count', [DashboardController::class, 'countAnnonces']);
+    Route::get('/demandes/count', [DashboardController::class, 'countDemandes']);
+    //Budget Mangement 
+    Route::post('/transferer',[ProgrammesController::class,'transferer']);
+    Route::post('/distribuer-budget', [TransacController::class, 'distribuerBudget']);
+    Route::get('/billan', [TransacController::class, 'billan']);
+    // Notifications
+    Route::put('/notification/{id}/read', [NotificationsController::class, 'markAsRead']);
+    Route::get('/notifications', [NotificationsController::class, 'getNotificationsForUser']);
+    Route::get('/notificationcount', [NotificationsController::class, 'unreadNotificationsCount']);
+    
 });
 // Login Route
 Route::post('login',[UsersController::class,'loginUser']);

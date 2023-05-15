@@ -19,4 +19,8 @@ class Oeuvre extends Model
     {
         return $this->belongsTo(Programme::class);
     }
+    public function demande()
+    {
+        return $this->hasMany(Demande::class);
+    }
 }

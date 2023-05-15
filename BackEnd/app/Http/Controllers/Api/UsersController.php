@@ -141,4 +141,8 @@ class UsersController extends Controller
         else
                 return $this->onError(401,"User Doesn't exist");  
     }
+    public function routeNotificationForDatabase()
+{
+    return $this->id;
+}
 }

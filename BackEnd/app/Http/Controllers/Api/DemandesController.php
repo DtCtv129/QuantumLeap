@@ -61,5 +61,57 @@ class DemandesController extends Controller
     
             return $this->onError(401,"Unauthorized Access");
         }
+
+
+        public function payDemande(Request $request, int $id ):JsonResponse
+        {
+            $user = $request->user();
+            if ($this->isAdmin($user)) {
+                //$demandesValides = Demande::where('status', 'valide')->first();
+                $demandesValides=Demande::where('id',$id)->where('status', 'valide')->first();
+                if (!$demandesValides ) {
+                    return $this->OnError(403, "Aucune demande valide n'a été trouvée");
+                }else{
+                    
+                                $transaction = Transaction::create([
+                                    'demande_id'=>$request->id,
+                                    'montant'=>$request->montant,
+                                ]);
+                                $programme = $demandesValides->oeuvre->programme;
+                               // $demande = Demande::where('id', $id)->with('oeuvre.programme')->whereHas('oeuvre.programme')->first();
+
+                                if (!$programme) {
+                                    return $this->OnError(500, "Le programme correspondant n'a pas été trouvé");
+                                }
+                        
+                                if ($programme->montant < $request->montant) {
+                                    return $this->onError(403, "Le montant de la demande dépasse le montant du programme");
+                                }
+                        
+                                $programme->decrement('montant', $request->montant);                                                       
+                                
+                                $demandesValides->status = 'payé';
+                                $demandesValides->save();
+                                $user = $demandesValides->user;
+                                if ($user) {
+
+                                    $notification = new DemandeStatusNotification($demandesValides);
+                                    $user->notify($notification);
+                                    return $this->OnSuccess($demandesValides, 'Demande Payé');
+                                    
+                                }
+                                  
+                                
+                                return $this->OnSuccess($transaction, "Transaction Réussie");                 
+                }
+                        
+            }else {
+
+
+                return $this-> onError(401,"Unauthorized Access");
+                }
+
+        }           
+        
         
 }

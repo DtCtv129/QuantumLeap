@@ -23,6 +23,16 @@ class Demande extends Model
     }
     public function oeuvre()
     {
-        return $this->BelogsTo(Oeuvre::class);
+        return $this->belongsTo(Oeuvre::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function demande()
+    {
+        return $this->hasMany(Notification::class);
     }
 }

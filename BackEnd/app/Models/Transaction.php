@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'demande_id',
+        'montant',
+    ];
+
+
+
+    public function demande()
+    {
+        return $this->belongsTo(Demande::class);
+    }
+
 }
