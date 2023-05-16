@@ -11,8 +11,6 @@ use App\Models\User;
 
 class TransactionsController extends Controller
 {
-    //
-
     public function distribuerBudget(Request $request)
     {
         if ($this->isAdmin($request->user())) {
