@@ -55,16 +55,18 @@ trait ApiHelpers
     protected function userUpdateValidatedRules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         ];
     }
     protected function userValidatedRules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'firstName' => ['required', 'string','min:6','max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
+            'lastName' => ['required', 'string', 'min:6','max:255'],
+            'password' => ['required', 'string', 'min:8']
         ];
     }
     public function storeFiles(Request $request,$demandeId)

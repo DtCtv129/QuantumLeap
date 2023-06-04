@@ -24,15 +24,16 @@ class UsersController extends Controller
         if ($this->isAdmin($user)) {
             $validator = Validator::make($request->all(), $this->userValidatedRules());
             if ($validator->passes()) {
-          
+                
                 $user=User::create([
-                    'name' => $request->name,
+                    'name' => $request->firstName." ".$request->lastName,
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
+                    'job'=>$request->job,
                     'role' => 1
                 ]);
-                $userToken = $user->createToken('auth_token', ['user'])->plainTextToken;
-                return $this->onSuccess($userToken, 'User Created Successfully');
+                $userId = $user->id;
+                return $this->onSuccess($userId, 'User Created Successfully');
             }
             return $this->onError(400, $validator->errors());
         }

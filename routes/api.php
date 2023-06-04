@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     // User Management
     
     Route::get('users',[UsersController::class,'getUsers']);
-    Route::post('users/create',[UsersController::class,'createUser']);
+    Route::post('users',[UsersController::class,'createUser']);
     Route::post('users/update/{id}',[UsersController::class,'updateUser']);
     Route::post('users/delete/{id}',[UsersController::class,'deleteUser']);
     Route::post('users/changepassword',[UsersController::class,'changePassword']);
