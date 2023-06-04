@@ -14,7 +14,7 @@ use Carbon\Carbon;
 
 
 
-class ForgotPasswordController extends Controller
+class PasswordResetController extends Controller
 {
     public function sendResetPasswordEmail(Request $request){
 

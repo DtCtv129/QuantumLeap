@@ -1,0 +1,3 @@
+[submodule "FrontEnd"]
+	path = FrontEnd
+	url = https://github.com/wiam200/projet_1CS.git/

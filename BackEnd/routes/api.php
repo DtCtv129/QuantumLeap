@@ -7,9 +7,11 @@ use App\Http\Controllers\Api\ProgrammesController;
 use App\Http\Controllers\Api\OeuvresController;
 use App\Http\Controllers\Api\DemandesController;
 use App\Http\Controllers\Api\PieceJointesController;
-use App\Http\Controllers\Api\ResetPasswordController;
+// use App\Http\Controllers\Api\PasswordResetController;
 use App\Http\Controllers\Api\TransactionsController;
 use App\Http\Controllers\Api\StatisticsController;
+use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\NotificationsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,6 +25,8 @@ use App\Http\Controllers\Api\StatisticsController;
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
     // User Management
+    
+    Route::get('users',[UsersController::class,'getUsers']);
     Route::post('users/create',[UsersController::class,'createUser']);
     Route::post('users/update/{id}',[UsersController::class,'updateUser']);
     Route::post('users/delete/{id}',[UsersController::class,'deleteUser']);
@@ -55,17 +59,19 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/demandes/count', [DashboardController::class, 'countDemandes']);
     //Budget Mangement 
     Route::post('/transferer',[ProgrammesController::class,'transferer']);
-    Route::post('/distribuer-budget', [TransacController::class, 'distribuerBudget']);
-    Route::get('/billan', [TransacController::class, 'billan']);
+    Route::post('/distribuer-budget', [TransactionsController::class, 'distribuerBudget']);
+    Route::get('/billan', [TransactionsController::class, 'billan']);
     // Notifications
     Route::put('/notification/{id}/read', [NotificationsController::class, 'markAsRead']);
     Route::get('/notifications', [NotificationsController::class, 'getNotificationsForUser']);
     Route::get('/notificationcount', [NotificationsController::class, 'unreadNotificationsCount']);
-    
+    // Integreation
+    Route::get('hey',[UsersController::class,'testLogin']);
 });
 // Login Route
+// Route::post('admin/setup',[UsersController::class,'setUpAdmin']);
 Route::post('login',[UsersController::class,'loginUser']);
-Route::post('/sendresetpasswordemail',[ResetPasswordController::class,'sendResetPasswordEmail']);
-Route::post('/resetpassword/{token}', [ResetPasswordController::class, 'reset']);
+// Route::post('/sendresetpasswordemail',[PasswordResetController::class,'sendResetPasswordEmail']);
+// Route::post('/resetpassword/{token}', [PasswordResetController::class, 'reset']);
 
 

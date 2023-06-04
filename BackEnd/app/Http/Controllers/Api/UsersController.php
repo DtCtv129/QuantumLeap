@@ -39,43 +39,73 @@ class UsersController extends Controller
 
         return $this->onError(401,"Unauthorized Access");
     }
+    public function getUsers(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        if ($this->isAdmin($user)) {          
+                $users=User::all();
+                return $this->onSuccess($users, 'Success');
+             }
+        return $this->onError(401,"Unauthorized Access");
+    }
    
 
     public function loginUser(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'userEmail' => 'required|email',
             'password' => 'required',
         ]);
    
         if ($validator->passes()) {
           
-            $user = User::where('email', $request->email)->first();
- 
+            $user = User::where('email', $request->userEmail)->first();
+            
             if (! $user || ! Hash::check($request->password, $user->password) ) {
                 return $this->onError(401,"Wrong Email Or Password");
             }
              if((int)$user->role=== 0 ){
                     $userToken =  $user->createToken('auth-token', ['admin'])->plainTextToken; 
-                }
+                    $role="admin";
+                }   
                 else{
                     $userToken =  $user->createToken('auth-token', ['user'])->plainTextToken;
+                    $role="user";
                 }
                  
-                return $this->onSuccess($userToken, 'Sucess');
+                return $this->onSuccess(
+                [
+                "token"=>$userToken,
+                "email"=>$user->email,
+                "role"=>$role,
+                "userName"=>$user->name
+                ]
+                , 'Sucess');
             } 
             return $this->onError(400, $validator->errors());
         }
        
-    public function logoutUser(): JsonResponse
-    {
-        $user = Auth::user();
-
-        $user->currentAccessToken()->delete();
+    public function logoutUser(Request $request): JsonResponse
+    {   
         
+        $user = $request->user();
+      if($user){
+        $user->currentAccessToken()->delete();        
         return $this->onSuccess('','User Loged out successfully.');
-    }
-   
+            }   
+         return $this->onError(401, "User Doesn't exist");
+     }
+     public function testLogin(Request $request): JsonResponse
+     {   
+         
+         $user = $request->user();
+         if($user){
+        //  $user->currentAccessToken()->delete();        
+         return $this->onSuccess('','Token recieved successfully');
+             }   
+             return $this->onError(401, "GG");
+      }
+    
     public function updateUser(Request $request, int $id):JsonResponse
     {
         $user = $request->user();
@@ -114,12 +144,11 @@ class UsersController extends Controller
     }
     public function changePassword(request $request){
         $request->validate([
-            'password' => 'required', 
-
+            'newPassword' => 'required', 
         ]);
 
         $user = Auth::user();
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make($request->newPassword);
         $user->save();
         return response([
             'message' => 'Password changed Successfully',
@@ -144,5 +173,20 @@ class UsersController extends Controller
     public function routeNotificationForDatabase()
 {
     return $this->id;
+}
+public function setUpAdmin(Request $request): JsonResponse
+{
+    
+     
+            $user=User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'job' => $request->job,
+                'role' => 0
+            ]);
+           
+
+    return $this->onSuccess(200,"Admin Added Successfully");
 }
 }
