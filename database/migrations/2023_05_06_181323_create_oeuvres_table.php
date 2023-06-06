@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('programme_id');
             $table->string('titre');
             $table->longText('description')->nullable();
-            $table->integer('nbr_doc')->unsigned()->default(0);
+            $table->integer('amount')->unsigned()->nullable();
             $table->timestamps();
         });
     }

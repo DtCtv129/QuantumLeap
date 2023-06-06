@@ -13,7 +13,7 @@ class Oeuvre extends Model
         'programme_id',
         'titre',
         'description',
-        'nbr_doc'
+        'amount'
     ];
     public function programme()
     {

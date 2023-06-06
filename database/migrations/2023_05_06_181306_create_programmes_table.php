@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('programmes', function (Blueprint $table) {
             $table->id();
             $table->string('titre');
-            $table->bigInteger('montant')->default(0);
+            $table->bigInteger('montant')->default(0)->nullable();
             $table->timestamps();
         });
     }

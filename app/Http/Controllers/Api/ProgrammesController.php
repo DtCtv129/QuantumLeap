@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Programme;
 use App\Models\Caisse;
+use Validator;
 use App\Http\Library\ApiHelpers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,11 +24,23 @@ class ProgrammesController extends Controller
          }
         return $this->onError(401,"Unauthorized Access");
     }
-    public function createProgramme(Request $request):JsonResponse
+    public function getProgrammesTitles(Request $request):JsonResponse
     {
         $user = $request->user();
+
+        if ($this->isAdmin($user)) {
+            $programmes=Programme::all()->pluck('titre');
+         return $this->onSuccess($programmes, 'Success');
+         }
+        return $this->onError(401,"Unauthorized Access");
+    }
+    public function createProgramme(Request $request):JsonResponse
+    {
+       $user = $request->user();
         if ($this->isAdmin($user)) {
            $budget=Caisse::first()->budget;
+           $validator = Validator::make($request->all(), $this->programmeValidatedRules());
+           if ($validator->passes()) {
             if ($request->montant<=$budget) {
           
                 $programme=Programme::create([
@@ -36,7 +49,9 @@ class ProgrammesController extends Controller
                 ]);
                 return $this->onSuccess($programme, 'Programme Created Successfully');
             }
-            return $this->onError(405, "Budget insuffisant");
+                return $this->onError(405, "Budget insuffisant");
+               }
+           return $this->onError(400, $validator->errors());
         }
 
         return $this->onError(401,"Unauthorized Access");

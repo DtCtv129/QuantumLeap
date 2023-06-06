@@ -68,7 +68,7 @@ class DemandesController extends Controller
             $user = $request->user();
             if ($this->isAdmin($user)) {
                 //$demandesValides = Demande::where('status', 'valide')->first();
-                $demandesValides=Demande::where('id',$id)->where('status', 'valide')->first();
+                $demandesValides=Demande::where('id',$id)->where('status', 'valide')->first();//stauts updatae
                 if (!$demandesValides ) {
                     return $this->OnError(403, "Aucune demande valide n'a été trouvée");
                 }else{
@@ -76,7 +76,7 @@ class DemandesController extends Controller
                                 $transaction = Transaction::create([
                                     'demande_id'=>$request->id,
                                     'montant'=>$request->montant,
-                                ]);
+                                ]); 
                                 $programme = $demandesValides->oeuvre->programme;
                                // $demande = Demande::where('id', $id)->with('oeuvre.programme')->whereHas('oeuvre.programme')->first();
 

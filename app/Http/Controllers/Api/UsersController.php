@@ -135,11 +135,11 @@ class UsersController extends Controller
         if ($this->isAdmin($user)) {
           
                 $user=User::where('id',$id)->first();
-                if(!empty($user)){
+                if(!empty($user) && $this->isAdmin($user)==false){
                     $user->delete();
                     return $this->onSuccess($user, 'User Deleted Successfully');
                 }
-                return $this->onError(404,"User doesn't exist");
+                return $this->onError(404,"User Can't Be Deleted");
             }
         return $this->onError(401,"Unauthorized Access");
     }

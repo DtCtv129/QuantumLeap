@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\TransactionsController;
 use App\Http\Controllers\Api\StatisticsController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\NotificationsController;
+use App\Http\Controllers\Api\BudgetController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,8 +25,8 @@ use App\Http\Controllers\Api\NotificationsController;
 */
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
+
     // User Management
-    
     Route::get('users',[UsersController::class,'getUsers']);
     Route::post('users',[UsersController::class,'createUser']);
     Route::post('users/update/{id}',[UsersController::class,'updateUser']);
@@ -35,6 +36,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('logout',[UsersController::class,'logoutUser']);
     // Programme Management
     Route::get('programmes',[ProgrammesController::class,'getProgrammes']);
+    Route::get('programmes-titles',[ProgrammesController::class,'getProgrammesTitles']);
     Route::post('programmes/create',[ProgrammesController::class,'createProgramme']);
     Route::post('programmes/update/{id}',[ProgrammesController::class,'updateProgramme']);
     Route::post('programmes/delete/{id}',[ProgrammesController::class,'deleteProgramme']);
@@ -58,19 +60,21 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/annonces/count', [DashboardController::class, 'countAnnonces']);
     Route::get('/demandes/count', [DashboardController::class, 'countDemandes']);
     //Budget Mangement 
+    Route::get('/budget',[BudgetController::class,'getBudget']);
     Route::post('/transferer',[ProgrammesController::class,'transferer']);
     Route::post('/distribuer-budget', [TransactionsController::class, 'distribuerBudget']);
-    Route::get('/billan', [TransactionsController::class, 'billan']);
+    // Route::get('/billan', [TransactionsController::class, 'billan']);
     // Notifications
     Route::put('/notification/{id}/read', [NotificationsController::class, 'markAsRead']);
     Route::get('/notifications', [NotificationsController::class, 'getNotificationsForUser']);
     Route::get('/notificationcount', [NotificationsController::class, 'unreadNotificationsCount']);
     // Integreation
-    Route::get('hey',[UsersController::class,'testLogin']);
+    Route::post('hey',[UsersController::class,'testLogin']);
 });
+
 // Login Route
 // Route::post('admin/setup',[UsersController::class,'setUpAdmin']);
-Route::post('login',[UsersController::class,'loginUser']);
+   Route::post('login',[UsersController::class,'loginUser']);
 // Route::post('/sendresetpasswordemail',[PasswordResetController::class,'sendResetPasswordEmail']);
 // Route::post('/resetpassword/{token}', [PasswordResetController::class, 'reset']);
 

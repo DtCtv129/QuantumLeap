@@ -34,7 +34,7 @@ class OeuvresController extends Controller
                     'programme_id'=>$request->programmeId,
                     'titre'=>$request->titre,
                     'description'=>$request->description,
-                    'nbr_doc'=>$request->nbrDoc
+                    'amount'=>$request->amount
                 ]);
                 return $this->onSuccess($oeuvre, 'Oeuvre Created Successfully');
         }
@@ -49,7 +49,7 @@ class OeuvresController extends Controller
                 $oeuvre->update([
                     'titre' => $request->titre,
                     'description'=>$request->description,
-                    'nbr_doc'=>$request->nbrDoc
+                    'amount'=>$request->amount
                 ]);
                 return $this->onSuccess($oeuvre, 'Oeuvre Updated Successfully');
         }
