@@ -69,6 +69,21 @@ class ProgrammesController extends Controller
 
         return $this->onError(401,"Unauthorized Access");
     }
+    public function destributeAmounts(Request $request):JsonResponse
+    {
+        $user = $request->user();
+        if ($this->isAdmin($user)) {
+                $programme=Programme::where('titre',$request->selectedProgram)->first();
+                if ($programme) {
+                $programme->update([
+                    'montant' => $request->chapterAmount,
+                ]);
+                return $this->onSuccess($programme, 'Programme Updated Successfully');
+            }
+            return $this->onError(400,"Programme Doesn't exist");
+        }
+        return $this->onError(401,"Unauthorized Access");
+    }
     public function deleteProgramme(Request $request, $id):JsonResponse
     {
         $user = $request->user();

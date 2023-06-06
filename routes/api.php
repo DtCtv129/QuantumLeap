@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\StatisticsController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\BudgetController;
+use App\Http\Controllers\Api\CaisseController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,6 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('programmes',[ProgrammesController::class,'getProgrammes']);
     Route::get('programmes-titles',[ProgrammesController::class,'getProgrammesTitles']);
     Route::post('programmes/create',[ProgrammesController::class,'createProgramme']);
+    Route::post('programmes/destribute',[ProgrammesController::class,'destributeAmounts']);
     Route::post('programmes/update/{id}',[ProgrammesController::class,'updateProgramme']);
     Route::post('programmes/delete/{id}',[ProgrammesController::class,'deleteProgramme']);
     // Oeuvre Management
@@ -74,6 +76,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
 // Login Route
 // Route::post('admin/setup',[UsersController::class,'setUpAdmin']);
+Route::post('caisse/setup',[CaisseController::class,'setUpCaisse']);
    Route::post('login',[UsersController::class,'loginUser']);
 // Route::post('/sendresetpasswordemail',[PasswordResetController::class,'sendResetPasswordEmail']);
 // Route::post('/resetpassword/{token}', [PasswordResetController::class, 'reset']);

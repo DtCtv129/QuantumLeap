@@ -20,4 +20,14 @@ class CaisseController extends Controller
             'budget'=> $caisse->budget-$montant
         ]);
     }
+    public function setUpCaisse(){
+        $data = [
+            ['id' => 1, 'budget' => 100000],
+            ['id' => 2, 'budget' => 100000],
+            ['id' => 3, 'budget' => 0],
+            ['id' => 4, 'budget' => 100000]
+        ];
+        
+        Caisse::insert($data);
+    }
 }
