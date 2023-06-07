@@ -59,7 +59,7 @@ class UsersController extends Controller
         ]);
    
         if ($validator->passes()) {
-          
+            
             $user = User::where('email', $request->userEmail)->first();
             
             if (! $user || ! Hash::check($request->password, $user->password) ) {

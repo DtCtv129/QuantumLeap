@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
     // User Management
     Route::get('users',[UsersController::class,'getUsers']);
-    Route::post('c',[UsersController::class,'createUser']);
+    Route::post('users/create',[UsersController::class,'createUser']);
     Route::post('users/update/{id}',[UsersController::class,'updateUser']);
     Route::post('users/delete/{id}',[UsersController::class,'deleteUser']);
     Route::post('users/changepassword',[UsersController::class,'changePassword']);
@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('oeuvres/delete/{id}',[OeuvresController::class,'deleteOeuvre']);
     // Demande Management
     Route::get('demandes',[DemandesController::class,'getDemandes']);
+    Route::get('demandes-by-status',[DemandesController::class,'getDemandesStatus']);
     Route::post('demandes/create',[DemandesController::class,'createDemande']);
     Route::get('demandes/attachments',[PieceJointesController::class,'getAttachments']);
     Route::post('/paydemande/{id}', [DemandesController::class, 'payDemande']);
@@ -63,7 +64,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/demandes/count', [DashboardController::class, 'countDemandes']);
     //Budget Mangement 
     Route::get('/budget',[BudgetController::class,'getBudget']);
-    Route::post('/budget/initialize',[BudgetController::class,'initBudget']);
+    Route::post('/budget',[BudgetController::class,'initBudget']);
     Route::post('/transferer',[ProgrammesController::class,'transferer']);
     Route::post('/distribuer-budget', [TransactionsController::class, 'distribuerBudget']);
     // Route::get('/billan', [TransactionsController::class, 'billan']);
@@ -71,8 +72,11 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::put('/notification/{id}/read', [NotificationsController::class, 'markAsRead']);
     Route::get('/notifications', [NotificationsController::class, 'getNotificationsForUser']);
     Route::get('/notificationcount', [NotificationsController::class, 'unreadNotificationsCount']);
+    // Transaction
+    Route::get('/transactions',[BudgetController::class,'getTransactions']);
     // Integreation
     Route::post('hey',[UsersController::class,'testLogin']);
+
 });
 
 // Login Route
@@ -83,3 +87,5 @@ Route::post('caisse/setup',[CaisseController::class,'setUpCaisse']);
 // Route::post('/resetpassword/{token}', [PasswordResetController::class, 'reset']);
 
 
+// testing
+Route::post('/notification', [NotificationsController::class, 'push']);

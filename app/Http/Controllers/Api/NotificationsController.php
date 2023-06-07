@@ -49,10 +49,4 @@ class NotificationsController extends Controller
 
 
 
-
-
-
-
-
-
 }

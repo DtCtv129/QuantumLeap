@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\Controller;
 use App\Http\Library\ApiHelpers;
 use Illuminate\Http\Request;
 use App\Models\Demande;
+use App\Models\User;
+use App\Models\Caisse;
+use App\Models\Transaction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-
+use App\Notifications\DemandeStatusNotification;
 class DemandesController extends Controller
 {
     use ApiHelpers;
@@ -19,10 +23,19 @@ class DemandesController extends Controller
         $user = $request->user();
 
         if ($this->isAdmin($user)) {
-            $demandes=Demande::with('piecejointes')->get();
+            $demandes=Demande::with('piecejointes')->with('user')->with('oeuvre')->get();
          return $this->onSuccess($demandes, 'Success');
         }else{
             $demandes=Demande::with('piecejointes')->where('user_id',$user->id)->get();
+         return $this->onSuccess($demandes, 'Success');
+        }
+    }
+    
+    public function getDemandesStatus(Request $request):JsonResponse
+    {
+        $user = $request->user();
+        if ($this->isAdmin($user)) {
+            $demandes=Demande::where('status',$request->status)->get();
          return $this->onSuccess($demandes, 'Success');
         }
     }
@@ -68,41 +81,41 @@ class DemandesController extends Controller
             $user = $request->user();
             if ($this->isAdmin($user)) {
                 //$demandesValides = Demande::where('status', 'valide')->first();
-                $demandesValides=Demande::where('id',$id)->where('status', 'valide')->first();//stauts updatae
+                $demandesValides=Demande::where('id',$id)->where('status', 'approved')->first();//stauts updatae
                 if (!$demandesValides ) {
-                    return $this->OnError(403, "Aucune demande valide n'a été trouvée");
+                    return $this->OnError(403, "This Request can't be payed");
                 }else{
-                    
-                                $transaction = Transaction::create([
-                                    'demande_id'=>$request->id,
-                                    'montant'=>$request->montant,
-                                ]); 
+                                
+                               
                                 $programme = $demandesValides->oeuvre->programme;
                                // $demande = Demande::where('id', $id)->with('oeuvre.programme')->whereHas('oeuvre.programme')->first();
 
                                 if (!$programme) {
-                                    return $this->OnError(500, "Le programme correspondant n'a pas été trouvé");
+                                    return $this->OnError(403, "Le programme correspondant n'a pas été trouvé");
                                 }
                         
                                 if ($programme->montant < $request->montant) {
                                     return $this->onError(403, "Le montant de la demande dépasse le montant du programme");
                                 }
-                        
+                                $transaction = Transaction::create([
+                                    'oeuvre'=>$demandesValides->oeuvre->titre,
+                                    'user_name'=>$demandesValides->user->name,
+                                    'montant'=>$request->montant,
+                                ]); 
                                 $programme->decrement('montant', $request->montant);                                                       
+                                Caisse::where('id',1)->first()->decrement("budget",$request->montant);
                                 
-                                $demandesValides->status = 'payé';
+                                $demandesValides->status = 'payed';
                                 $demandesValides->save();
                                 $user = $demandesValides->user;
                                 if ($user) {
-
-                                    $notification = new DemandeStatusNotification($demandesValides);
-                                    $user->notify($notification);
-                                    return $this->OnSuccess($demandesValides, 'Demande Payé');
                                     
+                                    Notification::send($user,new DemandeStatusNotification($demandesValides));
+                                    // User::where('id',$user->id)->first()->notify($notification);
                                 }
                                   
                                 
-                                return $this->OnSuccess($transaction, "Transaction Réussie");                 
+                                return $this->OnSuccess($transaction, "Transaction Success");                 
                 }
                         
             }else {
