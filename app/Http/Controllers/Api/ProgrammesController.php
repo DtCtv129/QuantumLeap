@@ -17,7 +17,7 @@ class ProgrammesController extends Controller
     {
         $user = $request->user();
 
-        if ($this->isAdmin($user)) {
+        if ($this->isAdmin($user) || $this->isUser($user)) {
             $programmes=Programme::with('oeuvres')->get();
             
          return $this->onSuccess($programmes, 'Success');
