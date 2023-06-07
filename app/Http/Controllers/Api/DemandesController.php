@@ -101,6 +101,7 @@ class DemandesController extends Controller
                                     'oeuvre'=>$demandesValides->oeuvre->titre,
                                     'user_name'=>$demandesValides->user->name,
                                     'montant'=>$request->montant,
+                                    "method"=>$request->method
                                 ]); 
                                 $programme->decrement('montant', $request->montant);                                                       
                                 Caisse::where('id',1)->first()->decrement("budget",$request->montant);
@@ -110,8 +111,8 @@ class DemandesController extends Controller
                                 $user = $demandesValides->user;
                                 if ($user) {
                                     
-                                    Notification::send($user,new DemandeStatusNotification($demandesValides));
-                                    // User::where('id',$user->id)->first()->notify($notification);
+                                    // Notification::send($user,new DemandeStatusNotification($demandesValides));
+                                    // // User::where('id',$user->id)->first()->notify($notification);
                                 }
                                   
                                 

@@ -112,14 +112,14 @@ class ProgrammesController extends Controller
     public function transferer(Request $request)
 {
     // Vérifier si l'utilisateur est un administrateur
-    //$user = $request->user();
-    if ($this->isAdmin($request->user())) {
+    $user = $request->user();
+    if ($this->isAdmin($user)) {
         // Récupérer les programmes source et destination à partir des paramètres de la requête
         $source = Programme::where('titre', $request->input('source'))->firstOrFail();
         $destination = Programme::where('titre', $request->input('destination'))->firstOrFail();
 
         // Récupérer la valeur à transférer à partir des paramètres de la requête
-        $valeur = intval($request->input('valeur'));
+        $valeur = intval($request->input('amount'));
 
         // Vérifier si la valeur à transférer est supérieure au montant du programme source
         if ($source->montant < $valeur) {
@@ -129,7 +129,8 @@ class ProgrammesController extends Controller
         // Mettre à jour les montants des programmes source et destination
         $source->montant -= $valeur;
         $destination->montant += $valeur;
-
+        // save logs 
+        TransferLogController::add($user->name,$source->titre,$destination->titre,$valeur);
         // Sauvegarder les changements dans la base de données
         $source->save();
         $destination->save();
@@ -139,13 +140,10 @@ class ProgrammesController extends Controller
             'source' => $source,
             'destination' => $destination,
         ]);
+        
     } else {
         return response()->json(['error' => 'Accès non autorisé.'], 401);
     }
-
-
-
-
 
 }
 }

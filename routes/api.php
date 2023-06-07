@@ -69,14 +69,15 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('/distribuer-budget', [TransactionsController::class, 'distribuerBudget']);
     // Route::get('/billan', [TransactionsController::class, 'billan']);
     // Notifications
-    Route::put('/notification/{id}/read', [NotificationsController::class, 'markAsRead']);
-    Route::get('/notifications', [NotificationsController::class, 'getNotificationsForUser']);
-    Route::get('/notificationcount', [NotificationsController::class, 'unreadNotificationsCount']);
-    // Transaction
+    Route::post('/notification', [NotificationsController::class, 'push']);
+    Route::get('/notification', [NotificationsController::class, 'get']);
+    // Route::get('/notifications', [NotificationsController::class, 'getNotificationsForUser']);
+    // Route::get('/notificationcount', [NotificationsController::class, 'unreadNotificationsCount']);
+    // // Transaction
     Route::get('/transactions',[BudgetController::class,'getTransactions']);
     // Integreation
     Route::post('hey',[UsersController::class,'testLogin']);
-
+    
 });
 
 // Login Route
@@ -88,4 +89,3 @@ Route::post('caisse/setup',[CaisseController::class,'setUpCaisse']);
 
 
 // testing
-Route::post('/notification', [NotificationsController::class, 'push']);

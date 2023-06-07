@@ -29,7 +29,7 @@ class DemandeStatusNotification extends Notification
      *
      * @return array<int, string>
      */
-    public function via( $notifiable): array
+    public function via($notifiable): array
     {
         return ['database'];
     }
