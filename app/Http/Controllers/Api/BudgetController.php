@@ -43,23 +43,34 @@ class BudgetController extends Controller
          }
         return $this->onError(401,"Unauthorized Access");
     }
-    // public function getProgrammesBudget(Request $request)
-    // {
-    //     $user = $request->user();
-    //     if ($this->isAdmin($user)) {
-    //         $budgets=Programme::all();
-    //         foreach($budgets as $budget){
-    //             $response[]=
-    //         }
-    //         $response=[
-    //             "initialBudget"=>$budgets[1]->budget,
-    //             "currentBudget"=>$budgets[3]->budget,
-    //             "expensesBudget"=>$budgets[2]->budget,
-    //             "blackBox"=>$budgets[0]->budget
-    //         ];
-    //      return $this->onSuccess($budgets, 'Success');
-    //      }
-    //     return $this->onError(401,"Unauthorized Access");
-    // }
+    public function initBudget(Request $request)
+    {
+        $user = $request->user();
+        if ($this->isAdmin($user)) {
+            $Caisse=Caisse::where('id',1)->first();
+            $budgetCaisse=$Caisse->budget;
+            $Caisse->update([
+                "budget"=>$budgetCaisse+$request->recette
+            ]);
+            $Caisse=Caisse::where('id',1)->first();
+            $budgetCaisse=$Caisse->budget;
+            $Init=Caisse::where('id',2)->first()->update([
+                "budget"=>$budgetCaisse
+            ]);
+            $expenses=Caisse::where('id',3)->first()->update([
+                "budget"=>0
+            ]);
+            $expenses=Caisse::where('id',4)->first()->update([
+                "budget"=>$budgetCaisse
+            ]);
+            Programme::query()
+            ->update([
+                'montant' => null,
+            ]);
+            $budgets=Caisse::all();
+         return $this->onSuccess($budgets, 'Success');
+         }
+        return $this->onError(401,"Unauthorized Access");
+    }
     
 }

@@ -74,13 +74,19 @@ class ProgrammesController extends Controller
         $user = $request->user();
         if ($this->isAdmin($user)) {
                 $programme=Programme::where('titre',$request->selectedProgram)->first();
-                if ($programme) {
+                if ($programme && !$programme->montant) {
+                    $current=Caisse::where("id",4)->first();
+                    $current=$current->budget;
+                Caisse::where("id",4)->update([
+                    "budget"=>$current-$request->chapterAmount
+                ]);
                 $programme->update([
                     'montant' => $request->chapterAmount,
                 ]);
+                
                 return $this->onSuccess($programme, 'Programme Updated Successfully');
             }
-            return $this->onError(400,"Programme Doesn't exist");
+            return $this->onError(400,"Programme Doesn't exist or Amount already Set");
         }
         return $this->onError(401,"Unauthorized Access");
     }
@@ -89,6 +95,10 @@ class ProgrammesController extends Controller
         $user = $request->user();
         if ($this->isAdmin($user)) {
                 $programme=Programme::where('id',$id)->first();
+                $current=Caisse::where("id",4)->first()->budget;
+                Caisse::where("id",4)->first()->update([
+                    "budget"=>$current+$programme->montant
+                ]);
                 $programme->delete();
                 return $this->onSuccess($programme, 'Programme Deleted Successfully');
         }

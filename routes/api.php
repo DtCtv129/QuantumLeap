@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
     // User Management
     Route::get('users',[UsersController::class,'getUsers']);
-    Route::post('users',[UsersController::class,'createUser']);
+    Route::post('c',[UsersController::class,'createUser']);
     Route::post('users/update/{id}',[UsersController::class,'updateUser']);
     Route::post('users/delete/{id}',[UsersController::class,'deleteUser']);
     Route::post('users/changepassword',[UsersController::class,'changePassword']);
@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/demandes/count', [DashboardController::class, 'countDemandes']);
     //Budget Mangement 
     Route::get('/budget',[BudgetController::class,'getBudget']);
+    Route::post('/budget/initialize',[BudgetController::class,'initBudget']);
     Route::post('/transferer',[ProgrammesController::class,'transferer']);
     Route::post('/distribuer-budget', [TransactionsController::class, 'distribuerBudget']);
     // Route::get('/billan', [TransactionsController::class, 'billan']);
@@ -75,7 +76,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 });
 
 // Login Route
-// Route::post('admin/setup',[UsersController::class,'setUpAdmin']);
+Route::post('admin/setup',[UsersController::class,'setUpAdmin']);
 Route::post('caisse/setup',[CaisseController::class,'setUpCaisse']);
    Route::post('login',[UsersController::class,'loginUser']);
 // Route::post('/sendresetpasswordemail',[PasswordResetController::class,'sendResetPasswordEmail']);
