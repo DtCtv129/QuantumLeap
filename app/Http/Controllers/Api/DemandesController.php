@@ -25,7 +25,7 @@ class DemandesController extends Controller
         if ($this->isAdmin($user)) {
             $demandes=Demande::with('piecejointes')->with('user')->with('oeuvre')->get();
          return $this->onSuccess($demandes, 'Success');
-        }else{
+        }elseif ($this->isUser($user)){
             $demandes=Demande::with('piecejointes')->where('user_id',$user->id)->get();
          return $this->onSuccess($demandes, 'Success');
         }
@@ -71,7 +71,7 @@ class DemandesController extends Controller
                     }
                     return $this->onError(404,"Demande doesn't exist");
             }
-    
+        
             return $this->onError(401,"Unauthorized Access");
         }
 
